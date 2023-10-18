@@ -1,6 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "/daisyui";
+
+/* .bg-dark {
+  background-color: #1a202c;
+} */
 
 :root {
   --foreground-rgb: 0, 0, 0;
