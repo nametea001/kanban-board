@@ -14,7 +14,8 @@ const config: Config = {
       //     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       // },
       backgroundColor: {
-        dark: "#1a202c", // Background color for dark mode
+        dark: "#1a202c", // Background color for dark mode.
+        dark_conten: "#2f3a50",
       },
       textColor: {
         dark: "#ffffff", // Text color for dark mode

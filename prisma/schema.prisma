@@ -8,11 +8,86 @@ datasource db {
 }
 
 model users {
+  id              Int             @id @default(autoincrement())
+  username        String          @db.VarChar(50)
+  password        String          @db.VarChar(100)
+  first_name      String          @db.VarChar(50)
+  last_name       String          @db.VarChar(50)
+  created_user_id Int
+  created_at      DateTime        @db.DateTime(0)
+  updated_user_id Int
+  updated_at      DateTime        @db.DateTime(0)
+  board_members   board_members[]
+}
+
+model board_members {
   id              Int      @id @default(autoincrement())
-  username        String   @db.VarChar(50)
-  pasword         String   @db.VarChar(100)
-  first_name      String   @db.VarChar(50)
-  last_name       String   @db.VarChar(50)
+  board_id        Int
+  user_id         Int
+  created_user_id Int
+  created_at      DateTime @db.DateTime(0)
+  updated_user_id Int
+  updated_at      Int
+  users           users    @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "board_members_ibfk_1")
+  board           boards   @relation(fields: [board_id], references: [id], onUpdate: Restrict, map: "board_members_ibfk_2")
+
+  @@index([board_id], map: "board_id")
+  @@index([user_id], map: "user_id")
+}
+
+model columns {
+  id              Int      @id @default(autoincrement())
+  board_id        Int
+  name            String   @db.Text
+  created_user_id Int
+  created_at      DateTime @db.DateTime(0)
+  updated_user_id Int
+  updated_at      DateTime @db.DateTime(0)
+  boards          boards   @relation(fields: [board_id], references: [id], onUpdate: Restrict, map: "columns_ibfk_1")
+  tasks           tasks[]
+
+  @@index([board_id], map: "board_id")
+}
+
+model task_member {
+  id              Int      @id @default(autoincrement())
+  task_id         Int
+  user_id         Int
+  created_user_id Int
+  created_at      DateTime @db.DateTime(0)
+  updated_user_id Int
+  updated_at      DateTime @db.DateTime(0)
+}
+
+model tasks {
+  id              Int      @id @default(autoincrement())
+  column_id       Int
+  position        Int
+  name            String   @db.Text
+  created_user_id Int
+  created_at      DateTime @db.DateTime(0)
+  updated_user_id Int
+  updated_at      DateTime @db.DateTime(0)
+  columns         columns  @relation(fields: [column_id], references: [id], onUpdate: Restrict, map: "tasks_ibfk_1")
+
+  @@index([column_id], map: "column_id")
+}
+
+model boards {
+  id              Int             @id @default(autoincrement())
+  name            String          @db.Text
+  created_user_id Int
+  created_at      DateTime        @db.DateTime(0)
+  updated_user_id Int
+  updated_at      DateTime        @db.DateTime(0)
+  columns         columns[]
+  board_members   board_members[]
+}
+
+model tags {
+  id              Int      @id @default(autoincrement())
+  task_id         Int
+  name            String   @db.Text
   created_user_id Int
   created_at      DateTime @db.DateTime(0)
   updated_user_id Int
